@@ -1,0 +1,33 @@
+.Layout {
+    > nav {
+        border-bottom: solid 1px $colorBorder;
+        background: $colorLightGray;
+        text-align: left;
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+.Page {
+    > header {
+        padding: 10px;
+        text-align: left;
+    }
+
+    > main {
+        padding: 10px;
+        text-align: left;
+    }
+
+    > footer {
+        padding: 10px;
+        border-top: solid 1px $colorBorder;
+
+        .copy-right {
+            color: $colorGray;
+        }
+    }
+}
