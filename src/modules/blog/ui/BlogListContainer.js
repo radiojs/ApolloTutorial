@@ -7,7 +7,7 @@ import BlogList from './BlogList';
 
 const BlogListContainer = () => {
     return (
-        <Query query={BLOG_LIST} fetchPolicy="network-only">
+        <Query query={BLOG_LIST}>
             {({ loading, data, error }) => {
                 const blogs = data && data.blogList;
                 return (

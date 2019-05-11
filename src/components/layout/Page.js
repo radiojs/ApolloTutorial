@@ -5,7 +5,9 @@ class Page extends React.Component {
         const { title, children } = this.props;
         return (
             <div className="Page">
-                <header>{title}</header>
+                <header>
+                    <h1>{title}</h1>
+                </header>
                 <main>{children}</main>
                 <footer>
                     <div className="copy-right">

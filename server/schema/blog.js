@@ -9,6 +9,10 @@ const typeDefs = gql`
     type Query {
         blogList: [Blog]
     }
+
+    type Mutation {
+        myBlogNew(title: String): Blog
+    }
 `;
 
 export default typeDefs;

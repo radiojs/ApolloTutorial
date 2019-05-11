@@ -9,6 +9,16 @@ const BLOG_LIST = gql`
   }
 `;
 
+const MY_BLOG_NEW = gql`
+  mutation MyBlogNew($title: String) {
+    myBlogNew(title: $title) {
+      _id
+      title
+    }
+  }
+`;
+
 export {
     BLOG_LIST,
+    MY_BLOG_NEW,
 };

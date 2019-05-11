@@ -1,5 +1,7 @@
 @import-normalize; /* bring in normalize.css styles */
 
+@import "../node_modules/radio-ui/dist/scss/index.scss";
+
 @import "css/variables";
 @import "components/layout/Layout";
 
