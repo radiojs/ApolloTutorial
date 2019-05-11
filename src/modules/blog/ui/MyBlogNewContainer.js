@@ -8,8 +8,13 @@ import MyBlogNew from './MyBlogNew';
 const MyBlogNewContainer = ({ show, onClose }) => {
     return (
         <Mutation mutation={MY_BLOG_NEW}>
-            {( myBlogNew, { loading, data, error }) => {
-                console.log('data', data);
+            {(myBlogNew, { loading, data, error }) => {
+                if (data && data.myBlogNew) {
+                    setTimeout(() => {
+                        onClose();
+                    }, 0);
+                }
+
                 return (
                     <MyBlogNew
                         show={show}
@@ -18,8 +23,7 @@ const MyBlogNewContainer = ({ show, onClose }) => {
                         error={error}
                         onClose={onClose}
                         onSubmit={({ title }) => {
-                            const variables = { title };
-                            myBlogNew({ variables });
+                            myBlogNew({ variables: { title } });
                         }}
                     />
                 )

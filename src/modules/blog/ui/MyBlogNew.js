@@ -11,7 +11,8 @@ class MyBlogNew extends React.Component {
         this.setState({ [name]: value });
     }
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
         this.props.onSubmit({ title: this.state.title });
     }
     
@@ -33,6 +34,7 @@ class MyBlogNew extends React.Component {
                         value={title}
                         onChange={this.handleChange}
                     />
+                    <Button type="submit">Submit</Button>
                 </Form>
             </Modal>
         );
