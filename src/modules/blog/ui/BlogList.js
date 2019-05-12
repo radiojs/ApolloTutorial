@@ -38,6 +38,7 @@ class BlogList extends React.Component {
                     ))
                 )}
                 <MyBlogNewContainer
+                    key={modalBlogNew}
                     show={modalBlogNew}
                     onClose={this.toggleBlogNew}
                     onDone={this.handleBlogNewDone}
