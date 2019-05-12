@@ -3,4 +3,4 @@ Apollo GraphQL based React boilerplate
 
 ## 차 례
 
-#### [Chapter 01. Getting started](./docs/chapter-01-getting-started.md)  
+#### [Chapter 01. Query and Mutation](./docs/chapter-01-query-and-mutation.md)  
