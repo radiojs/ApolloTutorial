@@ -14,6 +14,11 @@ class BlogList extends React.Component {
         this.setState({ modalBlogNew: !this.state.modalBlogNew });
     }
 
+    handleBlogNewDone = () => {
+        this.setState({ modalBlogNew: !this.state.modalBlogNew });
+        this.props.onRefresh();
+    }
+
     render() {
         const { loading, data, error } = this.props;
         const { modalBlogNew } = this.state;
@@ -35,6 +40,7 @@ class BlogList extends React.Component {
                 <MyBlogNewContainer
                     show={modalBlogNew}
                     onClose={this.toggleBlogNew}
+                    onDone={this.handleBlogNewDone}
                 />
             </Page>
         );

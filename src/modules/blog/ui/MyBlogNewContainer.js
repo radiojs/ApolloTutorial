@@ -4,14 +4,10 @@ import { Mutation } from 'react-apollo';
 import { MY_BLOG_NEW } from '../apollo/queries';
 import MyBlogNew from './MyBlogNew';
 
-const MyBlogNewContainer = ({ show, onClose }) => {
+const MyBlogNewContainer = ({ show, onClose, onDone }) => {
     return (
         <Mutation mutation={MY_BLOG_NEW}>
             {(myBlogNew, { loading, data, error }) => {
-                if (data && data.myBlogNew) {
-                    setTimeout(() => { onClose(); }, 0);
-                }
-
                 return (
                     <MyBlogNew
                         show={show}
@@ -19,8 +15,11 @@ const MyBlogNewContainer = ({ show, onClose }) => {
                         data={data}
                         error={error}
                         onClose={onClose}
-                        onSubmit={({ title }) => {
-                            myBlogNew({ variables: { title } });
+                        onSubmit={async ({ title }) => {
+                            const result = await myBlogNew({ variables: { title } });
+                            if (result && result.data && result.data.myBlogNew) {
+                                onDone();
+                            }
                         }}
                     />
                 )

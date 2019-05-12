@@ -12,7 +12,9 @@ class MyBlogNew extends React.Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
+        if (this.props.loading) return;
+
+        e.preventDefault();        
         this.props.onSubmit({ title: this.state.title });
     }
     
