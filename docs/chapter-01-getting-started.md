@@ -130,3 +130,103 @@ Redux는 아직 다루지 않은 상태이다. Apollo GraphQL이 Redux를 대체
     $ yarn add apollo-client apollo-cache-inmemory apollo-link-http react-apollo graphql-tag
 ```
 
+`src/modules/blog/apollo/queries.js` 파일에 클라이언트가 Apollo Server 로 요청하는 query 코드를 작성한다.
+
+```
+    const BLOG_LIST = gql`
+        query BlogList {
+            blogList {
+            _id
+            title
+            }
+        }
+    `;
+```
+
+`BlogListContainer.js` 파일과 `BlogList.js` 파일을 작성한다.
+
+UI를 담당하는 `BlogList.js` 파일은 기존과 동일하고, 프로세스를 담는 `BlogListContainer.js` 파일에 Query 코드를 추가한다.
+
+
+## Apollo 서버에서의 Mutation
+
+Mutation 은 변경사항을 처리하는 프로세스이다. 새로 blog를 등록하는 과정은 Mutation을 통해서 구현한다.  
+
+서버 쪽에서는 Query 기능을 구현하는 과정과 비슷하다.  
+
+먼저 Schema를 등록한다.
+
+```
+    ...
+    const typeDefs = gql`
+        ...
+
+        type Mutation {
+            myBlogNew(title: String): Blog
+        }
+    `;
+```
+
+다음 resolver 를 구성한다.
+
+```
+    const blogs = [{
+        _id: '1',
+        title: 'Seoul',
+    }, {
+        _id: '2',
+        title: 'New York',
+    }, {
+        _id: '3',
+        title: 'London',
+    }, {
+        _id: '4',
+        title: 'Paris',
+    }];
+
+    const resolvers = {
+        Query: ...,
+
+        Mutation: {
+            myBlogNew(root, { title }) {
+                blogs.push({ 
+                    _id: (blogs.length + 1).toString(),
+                    title,
+                });
+
+                return blogs[blogs.length - 1];
+            }
+        }
+    };
+
+```
+
+### 클라이언트
+
+`src/modules/blog/apollo/queries` 파일에 mutation 코드를 다음과 같이 넣는다:
+
+```
+    const MY_BLOG_NEW = gql`
+    mutation MyBlogNew($title: String) {
+        myBlogNew(title: $title) {
+            _id
+            title
+        }
+    }
+    `;
+```
+
+`MyBlogNewContainer.js`, `MyBlogNew.js` 파일을 작성한다.
+
+이 기능은 Modal UI로 구성한다. 즉, 별도의 경로를 가져서 Router를 통하는 방식이 아니다.
+목록 페이지에서 새로운 blog 를 등록하는 버튼을 누르면, Modal 화면이 나타나고 여기서 Form 컴포넌트를 통해서 
+데이터를 입력받아 처리한다.
+
+이 때, MyBlogNewContainer 객체는 controlled component 방식으로 작성한다. 즉, 변경 내역이 모두 
+상위 컴포넌트로 전달되고 상위 컴포넌트에서 이 컴포넌트의 보임과 숨김을 처리하게 구현한다.
+
+이와 같이 코드를 작성하고 실행해보면, 정상적으로 새 blog 가 등록되는 것을 볼 수 있다.
+다만, 이 경우, 그 결과를 바로 화면에 구현하지 못하고, 화면을 갱신해야 그 결과가 화면에 나타난다.
+
+이를 자동으로 보여지게 구현하려면, Subscription 을 구현해야 한다.
+이 기능은 다음 장에서 다루기로 한다.

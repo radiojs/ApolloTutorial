@@ -2,7 +2,6 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import { MY_BLOG_NEW } from '../apollo/queries';
-
 import MyBlogNew from './MyBlogNew';
 
 const MyBlogNewContainer = ({ show, onClose }) => {
@@ -10,9 +9,7 @@ const MyBlogNewContainer = ({ show, onClose }) => {
         <Mutation mutation={MY_BLOG_NEW}>
             {(myBlogNew, { loading, data, error }) => {
                 if (data && data.myBlogNew) {
-                    setTimeout(() => {
-                        onClose();
-                    }, 0);
+                    setTimeout(() => { onClose(); }, 0);
                 }
 
                 return (

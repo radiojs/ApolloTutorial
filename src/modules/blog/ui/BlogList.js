@@ -32,12 +32,10 @@ class BlogList extends React.Component {
                         <p key={doc._id}>{doc.title}</p>
                     ))
                 )}
-                {modalBlogNew && (
-                    <MyBlogNewContainer
-                        show={modalBlogNew}
-                        onClose={this.toggleBlogNew}
-                    />
-                )}
+                <MyBlogNewContainer
+                    show={modalBlogNew}
+                    onClose={this.toggleBlogNew}
+                />
             </Page>
         );
     }
