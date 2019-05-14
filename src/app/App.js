@@ -1,10 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 
-import Router from './Router';
+import Routes from './Routes';
 import './App.scss';
 
 // Apollo Client
@@ -18,7 +19,9 @@ const client = new ApolloClient({
 const App = () => (
   <ApolloProvider client={client}>
     <div className="App">
-      <Router />
+      <Router>
+        <Routes />
+      </Router>
     </div>
   </ApolloProvider>
 );
