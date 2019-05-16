@@ -8,6 +8,8 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { ApolloProvider, renderToStringWithData } from 'react-apollo';
 import { StaticRouter } from 'react-router';
+import path from 'path';
+import fs from 'fs';
 import log4js from 'log4js';
 
 import Routes from '../src/app/Routes';
@@ -41,19 +43,23 @@ router.get('/api/blogs', (req, res) => {
   res.status(200).json(result);
 });
 
+// static resources
+router.use(express.static(`${__dirname}/client`, { index: 'do_not_serve' }));
+
 app.use(router);
 
 // HTML output for SSR
-const Html = ({ content, state }) => (
-  <html>
-    <body>
+const Html = ({ content, state }) => {
+  return (    
+    <React.Fragment>
       <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
       <script dangerouslySetInnerHTML={{
         __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};`,
       }} />
-    </body>
-  </html>
-);
+    </React.Fragment>
+  );
+};
+
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
@@ -86,9 +92,27 @@ app.use((req, res, next) => {
     const initialState = client.extract();
     const html = <Html content={content} state={initialState} />;
   
-    res.status(200);
-    res.send(`<!doctype html>\n${ReactDOMServer.renderToStaticMarkup(html)}`);
-    res.end();
+    const filePath = path.resolve(__dirname, 'client', 'index.html');
+    if (filePath) {
+      fs.readFile(filePath, 'utf8', (error, htmlData) => {
+        if (error) {
+          console.error('error', error);
+          return res.status(404).end();
+        }
+
+        const insertedHtml = htmlData.replace('<div id="root"></div>',
+          ReactDOMServer.renderToStaticMarkup(html));
+
+        res.status(200);
+        res.send(insertedHtml);
+        res.end();
+      });
+    } else {
+      res.status(200);
+      res.send(`<!doctype html><html><body>\n${ReactDOMServer.renderToStaticMarkup(html)}</body></html>`);
+      res.end();  
+    }
+  
   });
 });
 

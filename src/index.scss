@@ -2,8 +2,9 @@
 
 @import "../node_modules/radio-ui/dist/scss/index.scss";
 
-@import "css/variables";
-@import "components/layout/Layout";
+@import "./css/variables";
+@import "./app/App";
+@import "./components/layout/Layout";
 
 body {
   margin: 0;

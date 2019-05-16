@@ -6,7 +6,6 @@ import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 
 import Routes from './Routes';
-import './App.scss';
 
 // Apollo Client
 const cache = new InMemoryCache();
