@@ -1,32 +1,23 @@
-const blogs = [{
-    _id: '1',
-    title: 'Seoul',
-}, {
-    _id: '2',
-    title: 'New York',
-}, {
-    _id: '3',
-    title: 'London',
-}, {
-    _id: '4',
-    title: 'Paris',
-}];
+import Blog from '../datasource/blog';
 
 const resolvers = {
     Query: {
-        blogList() {
+        async blogList() {
+            const blogs =  Blog.find().exec();
+
             return blogs;
         }
     },
 
     Mutation: {
-        myBlogNew(root, { title }) {
-            blogs.push({ 
-                _id: (blogs.length + 1).toString(),
-                title,
-            });
+        async myBlogNew(root, { title }) {
+            const object = { title };
+            const blog = new Blog(object);
+            const result = await blog.save();
 
-            return blogs[blogs.length - 1];
+            object._id = result._id;
+
+            return object;
         }
     }
 };

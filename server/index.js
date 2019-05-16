@@ -13,14 +13,18 @@ import fs from 'fs';
 import log4js from 'log4js';
 
 import Routes from '../src/app/Routes';
-import './config/log4js';
 import typeDefs from './schema/blog';
 import resolvers from './resolver/blog';
 
-const logger = log4js.getLogger();
+// log4js config
+import './lib/log4js';
 
-const app = express();
+// connect to the database
+import './lib/mongoose';
+
+const logger = log4js.getLogger();
 const PORT = 4000;
+const app = express();
 
 // setup routing
 const router = express.Router();
