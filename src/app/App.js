@@ -7,7 +7,10 @@ import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 
 import { getAuthToken } from '../lib/auth';
+import ToastListContainer from '../modules/toast/ui/ToastListContainer';
 import Routes from './Routes';
+import typeDefs from '../modules/toast/apollo/schema';
+import resolvers from '../modules/toast/apollo/resolvers';
 
 // Apollo Client
 const cache = new InMemoryCache();
@@ -27,6 +30,14 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
     cache,
     link: authLink.concat(httpLink),
+    typeDefs,
+    resolvers,
+});
+
+cache.writeData({
+  data: {
+    toasts: [],
+  }
 });
 
 const App = () => (
@@ -35,6 +46,7 @@ const App = () => (
       <Router>
         <Routes />
       </Router>
+      <ToastListContainer />
     </div>
   </ApolloProvider>
 );

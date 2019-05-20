@@ -1,0 +1,21 @@
+
+.ToastList {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 10px;
+    z-index: $zIndexToast;
+
+    .Toast {
+        background: $colorBg;
+
+        .Button.close {
+            color: $colorGray;
+        }
+    }    
+
+    .Toast + .Toast {
+        margin-top: 10px;
+    }
+}
