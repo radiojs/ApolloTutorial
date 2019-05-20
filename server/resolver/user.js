@@ -37,7 +37,6 @@ const resolvers = {
             };
         },
         signIn: async (root, { email, password }) => {
-            console.log('signIn email', email);
             const user = await User.findOne({ email });
 
             if (!user) {

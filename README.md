@@ -6,3 +6,4 @@ Apollo GraphQL based React boilerplate
 #### [Chapter 01. Query and Mutation](./docs/chapter-01-query-and-mutation.md)  
 #### [Chapter 02. Server side rendering](./docs/chapter-02-server-side-rendering.md)  
 #### [Chapter 03. MongoDB](./docs/chapter-03-mongodb.md)  
+#### [Chapter 04. Authentication](./docs/chapter-04-authentication.md)  
