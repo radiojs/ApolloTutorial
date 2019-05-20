@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import BlogResolver from './user';
+import BlogResolver from './blog';
 import UserResolver from './user';
 
 const resolvers = _.merge({},

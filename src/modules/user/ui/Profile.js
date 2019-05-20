@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Confirm, Icon, Spinner } from 'radio-ui';
 
-class Me extends React.Component {
+import Page from '../../../components/layout/Page';
+
+class Profile extends React.Component {
 
   constructor(props) {
     super(props);
@@ -32,18 +34,17 @@ class Me extends React.Component {
     }
 
     const { meView } = data || {};
-    console.log('meView', meView);
     const email = meView && meView.email;
 
     return email ? (
-      <div className="Me">
+      <div className="Profile">
         <Link to="/my-profile"><p>{email}</p></Link>
         <Button className="icon" onClick={this.handleSignOut}>
           <Icon name="signOut" /><span>Sign out</span>
         </Button>
       </div>
     ) : (
-      <div className="Me">
+      <div className="Profile">
         <Link to="/sign-in"><p>Sign in</p></Link>
       </div>
     );
@@ -51,22 +52,11 @@ class Me extends React.Component {
 
   render() {
     return (
-      <div className="Me">
+      <Page title="My profile">
         {this.renderContent()}
-        <Confirm
-          show={this.state.confirm}
-          message={'confirm_sign_out'}
-          buttons={[{
-            title: 'no',
-          }, {
-            title: 'yes',
-            style: 'primary',
-          }]}
-          onAnswer={this.handleConfirm}
-        />
-      </div>
+      </Page>
     );
   }
 }
 
-export default Me;
+export default Profile;

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { BLOG_LIST } from '../apollo/queries';
+import { MY_BLOG_LIST } from '../apollo/queries';
 
-import BlogList from './BlogList';
+import MyBlogList from './MyBlogList';
 
-const BlogListContainer = () => {
+const MyBlogListContainer = () => {
     return (
-        <Query query={BLOG_LIST}>
+        <Query query={MY_BLOG_LIST}>
             {({ loading, data, error, refetch }) => {
                 const blogs = data && data.blogList;
                 console.log('blogs data', data);
                 return (
-                    <BlogList
+                    <MyBlogList
                         loading={loading}
                         data={{ blogs }}
                         error={error}
@@ -26,4 +26,4 @@ const BlogListContainer = () => {
     );
 };
 
-export default BlogListContainer;
+export default MyBlogListContainer;

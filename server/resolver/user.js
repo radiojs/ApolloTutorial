@@ -3,9 +3,10 @@ import User from '../datasource/user';
 
 const resolvers = {
     Query: {
-        async meView(root, args, { user }) {
+        async meView(root, args, context) {
+            const { user } = context || {};
+            console.log('meView user', user);
             const object = user && user._id ? await User.findById(user._id) : null;
-            console.log('meView user', object);
             if (!object) return null;
 
             return {

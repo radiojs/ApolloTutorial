@@ -2,16 +2,26 @@ import Blog from '../datasource/blog';
 
 const resolvers = {
     Query: {
-        async blogList() {
-            const blogs =  Blog.find().exec();
+        blogList: async () => {
+            const blogs =  await Blog.find().exec();
 
+            return blogs;
+        },
+
+        myBlogList: async (root, args, context) => {
+            // authentication
+            const { user } = context || {};
+            if (!user) return null;
+
+            const blogs = await Blog.find({ 'writtenBy._id': user._id }).exec();
             return blogs;
         }
     },
 
     Mutation: {
-        async myBlogNew(root, { title }, { user }) {
+        myBlogNew: async (root, { title }, context) => {
             // authentication
+            const { user } = context || {};
             if (!user) return null;
 
             const object = { title };

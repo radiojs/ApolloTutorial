@@ -1,5 +1,6 @@
 .Layout {
     > nav {
+        position: relative;
         border-bottom: solid 1px $colorBorder;
         background: $colorLightGray;
         text-align: left;
@@ -7,6 +8,12 @@
         ul {
             margin: 0;
             padding: 0;
+        }
+
+        .Me {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     }
 }

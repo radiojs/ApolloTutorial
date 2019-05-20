@@ -81,8 +81,10 @@ app.use((req, res, next) => {
     cache: new InMemoryCache(),
   });
 
-  const context = {};
-
+  const context = {
+    user: null,
+  };
+ 
   const App = (
     <ApolloProvider client={client}>
       <div className="App">
@@ -132,7 +134,9 @@ app.use((req, res, next) => {
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
+  context: (args) => {
+    const { req } = args || {};
+    
     const token = req.headers.authorization || '';
 
     console.log('context token', token);

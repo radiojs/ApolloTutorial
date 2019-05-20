@@ -5,6 +5,23 @@ const BLOG_LIST = gql`
     blogList {
       _id
       title
+      writtenBy {
+        _id
+        email
+      }
+    }
+  }
+`;
+
+const MY_BLOG_LIST = gql`
+  query MyBlogList {
+    myBlogList {
+      _id
+      title
+      writtenBy {
+        _id
+        email
+      }
     }
   }
 `;
@@ -20,5 +37,6 @@ const MY_BLOG_NEW = gql`
 
 export {
     BLOG_LIST,
+    MY_BLOG_LIST,
     MY_BLOG_NEW,
 };
