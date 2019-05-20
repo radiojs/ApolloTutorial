@@ -10,7 +10,10 @@ const resolvers = {
     },
 
     Mutation: {
-        async myBlogNew(root, { title }) {
+        async myBlogNew(root, { title }, { user }) {
+            // authentication
+            if (!user) return null;
+
             const object = { title };
             const blog = new Blog(object);
             const result = await blog.save();

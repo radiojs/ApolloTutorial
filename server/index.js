@@ -12,9 +12,10 @@ import path from 'path';
 import fs from 'fs';
 import log4js from 'log4js';
 
+import { decodeJwtToken } from './lib/auth';
 import Routes from '../src/app/Routes';
-import typeDefs from './schema/blog';
-import resolvers from './resolver/blog';
+import typeDefs from './schema';
+import resolvers from './resolver';
 
 // log4js config
 import './lib/log4js';
@@ -131,7 +132,24 @@ app.use((req, res, next) => {
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => {
+    const token = req.headers.authorization || '';
+
+    console.log('context token', token);
+    
+    // retrieve the user info from the token
+    try {
+      const user = decodeJwtToken(token);
+
+      // add the user to the context
+      return { user };
+    } catch (ex) {
+      logger.error(`JWT decode failed\n${JSON.stringify(ex, null, ' ')}`);
+      return { };
+    }
+  },
 });
+
 apollo.applyMiddleware({ app });
 
 app.listen(PORT, () => {

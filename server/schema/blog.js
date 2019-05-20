@@ -6,11 +6,11 @@ const typeDefs = gql`
         title: String
     }
 
-    type Query {
+    extend type Query {
         blogList: [Blog]
     }
 
-    type Mutation {
+    extend type Mutation {
         myBlogNew(title: String): Blog
     }
 `;
