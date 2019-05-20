@@ -5,7 +5,6 @@ const resolvers = {
     Query: {
         async meView(root, args, context) {
             const { user } = context || {};
-            console.log('meView user', user);
             const object = user && user._id ? await User.findById(user._id) : null;
             if (!object) return null;
 

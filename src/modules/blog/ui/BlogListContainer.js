@@ -10,7 +10,6 @@ const BlogListContainer = () => {
         <Query query={BLOG_LIST}>
             {({ loading, data, error, refetch }) => {
                 const blogs = data && data.blogList;
-                console.log('blogs data', data);
                 return (
                     <BlogList
                         loading={loading}

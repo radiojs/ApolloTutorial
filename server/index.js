@@ -138,8 +138,6 @@ const apollo = new ApolloServer({
     const { req } = args || {};
     
     const token = req.headers.authorization || '';
-
-    console.log('context token', token);
     
     // retrieve the user info from the token
     try {

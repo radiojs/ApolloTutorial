@@ -32,7 +32,6 @@ class Me extends React.Component {
     }
 
     const { meView } = data || {};
-    console.log('meView', meView);
     const email = meView && meView.email;
 
     return email ? (
