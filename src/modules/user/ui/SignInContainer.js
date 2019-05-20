@@ -1,15 +1,15 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 import { setAuthToken } from '../../../lib/auth';
 import { SIGN_IN } from '../apollo/queries';
 import SignIn from './SignIn';
 
-const SignInContainer = () => {
+const SignInContainer = withRouter(({ history, location }) => {
     return (
         <Mutation mutation={SIGN_IN}>
             {(signIn, { loading, data, error }) => {
-                console.log('sign in success next', { loading, data });
                 return (
                     <SignIn
                         loading={loading}
@@ -20,7 +20,11 @@ const SignInContainer = () => {
                             if (result && result.data && result.data.signIn) {
                                 const token = result.data.signIn.token;
                                 setAuthToken(token);
-                                document.location.reload(true);                                
+                                if (location && location.state && location.state.from) {
+                                    document.location.replace(location.state.from.pathname);
+                                } else {
+                                    document.location.replace('/');
+                                }
                             }
                         }}
                     />
@@ -28,6 +32,6 @@ const SignInContainer = () => {
             }}
         </Mutation>
     );
-};
+});
 
 export default SignInContainer;

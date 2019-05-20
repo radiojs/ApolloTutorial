@@ -17,10 +17,9 @@ const SignUpContainer = () => {
                         onSubmit={async (variables) => {
                             const result = await signUp({ variables });
                             if (result && result.data && result.data.signUp) {
-                                console.log('sign up success');
                                 const token = result.data.signUp.token;
                                 setAuthToken(token);
-                                document.location.reload(true);                                
+                                document.location.replace('/');
                             }
                         }}
                     />

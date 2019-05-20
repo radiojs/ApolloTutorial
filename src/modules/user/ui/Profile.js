@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Confirm, Icon, Spinner } from 'radio-ui';
+import { Button, Icon, Spinner } from 'radio-ui';
 
 import Page from '../../../components/layout/Page';
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Query } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 import Me from './Me';
 import { ME_VIEW } from '../apollo/queries';
 import { clearAuthToken } from '../../../lib/auth';
 
-const MeContainer = ({ onSignOut }) => {
+const MeContainer = withRouter(({ onSignOut }) => {
   return (
     <Query query={ME_VIEW} fetchPolicy={'network-only'}>
       {({ loading, error, data }) => (
@@ -16,7 +17,7 @@ const MeContainer = ({ onSignOut }) => {
           onSignOut={(confirm) => {
             if (confirm) {
               clearAuthToken();
-              document.location.reload(true);
+              document.location.replace('/');
             }
             onSignOut && onSignOut();
           }}
@@ -24,7 +25,7 @@ const MeContainer = ({ onSignOut }) => {
       )}
     </Query>
   );
-};
+});
 
 
 export default MeContainer;
