@@ -9,7 +9,7 @@ import { clearAuthToken } from '../../../lib/auth';
 const MeContainer = withRouter(({ onSignOut }) => {
   return (
     <Query query={ME_VIEW} fetchPolicy={'network-only'}>
-      {({ loading, error, data }) => (
+      {({ loading, error, data, refetch }) => (
         <Me
           loading={loading}
           error={error}
@@ -17,7 +17,8 @@ const MeContainer = withRouter(({ onSignOut }) => {
           onSignOut={(confirm) => {
             if (confirm) {
               clearAuthToken();
-              document.location.replace('/');
+              refetch();
+              // document.location.replace('/');
             }
             onSignOut && onSignOut();
           }}
