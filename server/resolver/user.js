@@ -1,7 +1,18 @@
+import { PubSub } from 'graphql-subscriptions';
+
 import { encodeJwtToken } from '../lib/auth';
 import User from '../datasource/user';
 
+const pubSub = new PubSub();
+const ON_SIGNED_IN = 'ON_SINED_IN';
+
 const resolvers = {
+    Subscription: {
+        onSignedIn: {
+            subscribe: () => (pubSub.asyncIterator([ON_SIGNED_IN]))
+        }
+    },
+
     Query: {
         async meView(root, args, context) {
             const { user } = context || {};
@@ -51,6 +62,8 @@ const resolvers = {
                 _id: user._id,
             });
 
+            pubSub.publish(ON_SIGNED_IN, { onSignedIn: user });
+            
             return {
                 user: {
                     _id: user._id,

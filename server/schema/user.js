@@ -22,6 +22,10 @@ const typeDefs = gql`
         signUp(email: String, password: String): UserToken
         signIn(email: String, password: String): UserToken
     }
+
+    extend type Subscription {
+        onSignedIn: User
+    }
 `;
 
 export default typeDefs;

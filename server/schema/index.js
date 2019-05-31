@@ -19,7 +19,7 @@ const RootSubscription = `
 const schema = [
     Query,
     RootMutation,
-//    RootSubscription,
+    RootSubscription,
     DateSchema,
     BlogSchema,
     UserSchema,

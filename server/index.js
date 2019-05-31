@@ -8,6 +8,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { ApolloProvider, renderToStringWithData } from 'react-apollo';
 import { StaticRouter } from 'react-router';
+import http from 'http';
 import path from 'path';
 import fs from 'fs';
 import log4js from 'log4js';
@@ -23,8 +24,12 @@ import './lib/log4js';
 // connect to the database
 import './lib/mongoose';
 
+const ROOT_URL = process.env.ROOT_URL;
+const PROTOCOL = ROOT_URL.split(':')[0];
+const SSL = PROTOCOL === 'https';
+const PORT = parseInt(ROOT_URL.split(':').pop()) || (SSL ? 443 : 80);
+
 const logger = log4js.getLogger();
-const PORT = 4000;
 const app = express();
 
 // setup routing
@@ -135,25 +140,58 @@ const apollo = new ApolloServer({
   typeDefs,
   resolvers,
   context: (args) => {
-    const { req } = args || {};
+    const { req, connection } = args || {};
     
-    const token = req.headers.authorization || '';
-    
-    // retrieve the user info from the token
-    try {
-      const user = decodeJwtToken(token);
+    if (connection) {
+      console.log('for subscription connection');
+      return connection.context;
+    } else {
+      const token = req.headers.authorization;
+      if (!token) return {};
+  
+      // retrieve the user info from the token
+      try {
+        const user = decodeJwtToken(token);
+  
+        // add the user to the context
+        return { user };
+      } catch (ex) {
+        logger.error(`JWT decode failed\n${JSON.stringify(ex, null, ' ')}`);
+        return { };
+      }
+    }
+  },
+  subscriptions: {
+    onConnect: (connectionParams, webSocket, context) => {
+      if (connectionParams.authToken) {
+        // retrieve the user info from the token
+        try {
+          const user = decodeJwtToken(connectionParams.authToken);
 
-      // add the user to the context
-      return { user };
-    } catch (ex) {
-      logger.error(`JWT decode failed\n${JSON.stringify(ex, null, ' ')}`);
-      return { };
+          // add the user to the context
+          return { user };
+        } catch (ex) {
+          logger.error(`JWT decode failed\n${JSON.stringify(ex, null, ' ')}`);
+          return null;
+        }
+      }
+      return null;
     }
   },
 });
 
 apollo.applyMiddleware({ app });
 
+const httpServer = http.createServer(app);
+apollo.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(PORT, () => {
+  logger.info(`🚀 Server HTTP ready at ${ROOT_URL}${apollo.graphqlPath}`)
+  logger.info(`🚀 Server WS ready at ${ROOT_URL.replace(PROTOCOL, 'ws')}${apollo.subscriptionsPath}`)
+});
+
+/*
 app.listen(PORT, () => {
   logger.info(`🚀 Server ready at http://localhost:${PORT}${apollo.graphqlPath}`);
 });
+*/

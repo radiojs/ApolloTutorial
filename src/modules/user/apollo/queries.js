@@ -26,8 +26,18 @@ const SIGN_IN = gql`
   }
 `;
 
+const ON_SIGNED_IN = gql`
+  subscription onSignedIn {
+    onSignedIn {
+      _id
+      email
+    }
+  }
+`;
+
 export {
     ME_VIEW,
     SIGN_UP,
     SIGN_IN,
+    ON_SIGNED_IN,
 };
