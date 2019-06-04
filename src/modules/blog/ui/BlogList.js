@@ -1,8 +1,9 @@
-import React from 'react';
-import { Button, Spinner } from 'radio-ui';
+import React from "react";
+import { Button } from "@material-ui/core";
+import { Spinner } from "radio-ui";
 
-import Page from '../../../components/layout/Page';
-import MyBlogNewContainer from './MyBlogNewContainer';
+import Page from "../../../components/layout/Page";
+import MyBlogNewContainer from "./MyBlogNewContainer";
 
 class BlogList extends React.Component {
   constructor(props) {
@@ -12,12 +13,12 @@ class BlogList extends React.Component {
 
   toggleBlogNew = () => {
     this.setState({ modalBlogNew: !this.state.modalBlogNew });
-  }
+  };
 
   handleBlogNewDone = () => {
     this.setState({ modalBlogNew: !this.state.modalBlogNew });
     this.props.onRefresh();
-  }
+  };
 
   render() {
     const { loading, data, error } = this.props;
@@ -33,9 +34,7 @@ class BlogList extends React.Component {
         {error ? (
           <p>Error: check server connection: {error.toString()}</p>
         ) : (
-          data.blogs && data.blogs.map(doc => (
-            <p key={doc._id}>{doc.title}</p>
-          ))
+          data.blogs && data.blogs.map(doc => <p key={doc._id}>{doc.title}</p>)
         )}
         <MyBlogNewContainer
           key={modalBlogNew}
