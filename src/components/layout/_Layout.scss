@@ -1,40 +1,32 @@
 .Layout {
-    > nav {
-        position: relative;
-        border-bottom: solid 1px $colorBorder;
-        background: $colorLightGray;
-        text-align: left;
-
-        ul {
-            margin: 0;
-            padding: 0;
-        }
-
-        .Me {
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
+  > nav {
+    .Me {
+      position: absolute;
+      top: 0;
+      right: 0;
     }
+  }
 }
 
 .Page {
-    > header {
-        padding: 10px;
-        text-align: left;
-    }
+  margin-top: 64px;
 
-    > main {
-        padding: 10px;
-        text-align: left;
-    }
+  > header {
+    padding: 10px;
+    text-align: left;
+  }
 
-    > footer {
-        padding: 10px;
-        border-top: solid 1px $colorBorder;
+  > main {
+    padding: 10px;
+    text-align: left;
+  }
 
-        .copy-right {
-            color: $colorGray;
-        }
+  > footer {
+    padding: 10px;
+    border-top: solid 1px $colorBorder;
+
+    .copy-right {
+      color: $colorGray;
     }
+  }
 }

@@ -1,11 +1,11 @@
-import React from 'react';
-import { Mutation } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import { Mutation } from "react-apollo";
+import { withRouter } from "react-router-dom";
 
-import { setAuthToken } from '../../../lib/auth';
-import { TOAST_ADD } from '../../toast/apollo/queries';
-import { SIGN_IN } from '../apollo/queries';
-import SignIn from './SignIn';
+import { setAuthToken } from "../../../lib/auth";
+import { TOAST_ADD } from "../../toast/apollo/queries";
+import { SIGN_IN } from "../apollo/queries";
+import SignIn from "./SignIn";
 
 const SignInContainer = withRouter(({ history, location }) => {
   return (
@@ -16,18 +16,18 @@ const SignInContainer = withRouter(({ history, location }) => {
             loading={loading}
             data={data}
             error={error}
-            onSubmit={async (variables) => {
+            onSubmit={async variables => {
               const result = await signIn({ variables });
               if (result && result.data && result.data.signIn) {
                 const token = result.data.signIn.token;
                 setAuthToken(token);
-                
+
                 client.mutate({
                   mutation: TOAST_ADD,
                   variables: {
-                    icon: 'check',
-                    message: 'Sign in succeded.',
-                  },
+                    icon: "check",
+                    message: "Sign in succeded."
+                  }
                 });
 
                 if (location && location.state && location.state.from) {
@@ -35,12 +35,15 @@ const SignInContainer = withRouter(({ history, location }) => {
                   history.replace(location.state.from.pathname);
                 } else {
                   // document.location.replace('/');
-                  history.replace('/');
+                  history.replace("/");
                 }
               }
             }}
+            onSignUp={() => {
+              history.push("/sign-up");
+            }}
           />
-        )
+        );
       }}
     </Mutation>
   );

@@ -1,59 +1,82 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Form, Input, Spinner } from 'radio-ui';
+import React from "react";
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import { Form, Spinner } from "radio-ui";
 
-import Page from '../../../components/layout/Page';
+import Page from "../../../components/layout/Page";
 
 class SignIn extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { email: '', password: '' };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { email: "", password: "" };
+  }
 
-    handleChange = (name, value) => {
-        this.setState({ [name]: value });
-    }
+  handleChange = (name, e) => {
+    this.setState({ [name]: e.target.value });
+  };
 
-    handleSubmit = (e) => {
-        e.preventDefault();        
+  handleSubmit = e => {
+    e.preventDefault();
 
-        if (this.props.loading) return;
+    if (this.props.loading) return;
 
-        const { email, password } = this.state;
-        this.props.onSubmit({ email, password });
-    }
-    
-    render() {
-        const { loading } = this.props;
-        const { email, password } = this.state;
+    const { email, password } = this.state;
+    this.props.onSubmit({ email, password });
+  };
 
-        if (loading) return <Spinner />;
+  render() {
+    const { loading, onSignUp } = this.props;
+    const { email, password } = this.state;
 
-        return (
-            <Page
-                title="Sign in"
-            >
-                <Form onSubmit={this.handleSubmit}>
-                    <Input
-                        name="email"
-                        value={email}
-                        onChange={this.handleChange}
-                    />
+    if (loading) return <Spinner />;
 
-                    <Input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={this.handleChange}
-                    />
-                    <Button type="submit">Submit</Button>
-                </Form>
-                <div>
-                    <Link to="/sign-up">Sign up</Link>
-                </div>
-            </Page>
-        );
-    }
+    return (
+      <Page>
+        <Grid container justify="center">
+          <Grid item md={4}>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Form onSubmit={this.handleSubmit}>
+              <TextField
+                label="Email"
+                name="email"
+                value={email}
+                fullWidth
+                margin="normal"
+                autoComplete="email"
+                autoFocus
+                onChange={e => {
+                  this.handleChange("email", e);
+                }}
+              />
+
+              <TextField
+                label="Password"
+                type="password"
+                name="password"
+                value={password}
+                fullWidth
+                margin="normal"
+                autoComplete="current-password"
+                onChange={e => {
+                  this.handleChange("password", e);
+                }}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+              >
+                로그인
+              </Button>
+            </Form>
+            <Button onClick={onSignUp}>Sign up</Button>
+          </Grid>
+        </Grid>
+      </Page>
+    );
+  }
 }
 
 export default SignIn;

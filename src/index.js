@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './index.scss';
-import App from './app/App';
-import * as serviceWorker from './serviceWorker';
+import "./index.scss";
+import App from "./app/App";
+import * as serviceWorker from "./serviceWorker";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (rootElement.innerHTML.trim().length > 0) {
-    ReactDOM.hydrate(<App />, rootElement);
+  ReactDOM.hydrate(<App />, rootElement);
 } else {
-    ReactDOM.render(<App />, rootElement);
+  ReactDOM.render(<App />, rootElement);
 }
 
 // If you want your app to work offline and load faster, you can change

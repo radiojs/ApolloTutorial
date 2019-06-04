@@ -1,22 +1,23 @@
-import React from 'react';
-import { Query } from 'react-apollo';
+import React from "react";
+import { withRouter } from "react-router-dom";
+import { Query } from "react-apollo";
 
-import Profile from './Profile';
-import { ME_VIEW } from '../apollo/queries';
-import { clearAuthToken } from '../../../lib/auth';
+import Profile from "./Profile";
+import { ME_VIEW } from "../apollo/queries";
+import { clearAuthToken } from "../../../lib/auth";
 
-const ProfileContainer = ({ onSignOut }) => {
+const ProfileContainer = ({ history, onSignOut }) => {
   return (
-    <Query query={ME_VIEW} fetchPolicy={'network-only'}>
+    <Query query={ME_VIEW} fetchPolicy={"network-only"}>
       {({ loading, error, data }) => (
         <Profile
           loading={loading}
           error={error}
           data={data}
-          onSignOut={(confirm) => {
+          onSignOut={confirm => {
             if (confirm) {
               clearAuthToken();
-              document.location.reload(true);
+              history.push("/");
             }
             onSignOut && onSignOut();
           }}
@@ -26,5 +27,4 @@ const ProfileContainer = ({ onSignOut }) => {
   );
 };
 
-
-export default ProfileContainer;
+export default withRouter(ProfileContainer);

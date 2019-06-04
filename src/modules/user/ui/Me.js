@@ -1,9 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Confirm, Icon, Spinner } from 'radio-ui';
+import React from "react";
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from "@material-ui/core";
+import { Face as SignInIcon } from "@material-ui/icons";
+
+import { Icon, Spinner } from "radio-ui";
+
+import Confirm from "../../../components/modal/Confirm";
 
 class Me extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -14,7 +23,10 @@ class Me extends React.Component {
     this.renderContent = this.renderContent.bind(this);
   }
 
-  handleSignOut() {
+  handleSignOut(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     this.setState({ confirm: true });
   }
 
@@ -24,10 +36,10 @@ class Me extends React.Component {
   }
 
   renderContent() {
-    const { loading, error, data } = this.props;
+    const { loading, error, data, onClick } = this.props;
     if (loading) return <Spinner />;
     if (error) {
-      console.log('error', error);
+      console.log("error", error);
       return <p>Error :(</p>;
     }
 
@@ -35,16 +47,33 @@ class Me extends React.Component {
     const email = meView && meView.email;
 
     return email ? (
-      <div className="Me">
-        <Link to="/my-profile"><p>{email}</p></Link>
-        <Button className="icon" onClick={this.handleSignOut}>
-          <Icon name="signOut" /><span>Sign out</span>
-        </Button>
-      </div>
+      <List>
+        <ListItem
+          button
+          onClick={() => {
+            onClick("/my-profile");
+          }}
+        >
+          <Avatar>
+            <SignInIcon />
+          </Avatar>
+          <ListItemText>{email}</ListItemText>
+        </ListItem>
+      </List>
     ) : (
-      <div className="Me">
-        <Link to="/sign-in"><p>Sign in</p></Link>
-      </div>
+      <List>
+        <ListItem
+          button
+          onClick={() => {
+            onClick("/sign-in");
+          }}
+        >
+          <ListItemIcon>
+            <SignInIcon />
+          </ListItemIcon>
+          <ListItemText>Sign in</ListItemText>
+        </ListItem>
+      </List>
     );
   }
 
@@ -53,14 +82,18 @@ class Me extends React.Component {
       <div className="Me">
         {this.renderContent()}
         <Confirm
-          show={this.state.confirm}
-          message={'confirm_sign_out'}
-          buttons={[{
-            title: 'no',
-          }, {
-            title: 'yes',
-            style: 'primary',
-          }]}
+          open={this.state.confirm}
+          title={"sign_out"}
+          message={"confirm_sign_out"}
+          buttons={[
+            {
+              title: "no"
+            },
+            {
+              title: "yes",
+              style: "primary"
+            }
+          ]}
           onAnswer={this.handleConfirm}
         />
       </div>

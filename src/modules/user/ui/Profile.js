@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Spinner } from 'radio-ui';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Icon, Spinner } from "radio-ui";
 
-import Page from '../../../components/layout/Page';
+import Page from "../../../components/layout/Page";
+import Confirm from "../../../components/modal/Confirm";
 
 class Profile extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -29,33 +29,43 @@ class Profile extends React.Component {
     const { loading, error, data } = this.props;
     if (loading) return <Spinner />;
     if (error) {
-      console.log('error', error);
+      console.log("error", error);
       return <p>Error :(</p>;
     }
 
     const { meView } = data || {};
     const email = meView && meView.email;
 
-    return email ? (
+    return (
       <div className="Profile">
-        <Link to="/my-profile"><p>{email}</p></Link>
+        <Link to="/my-profile">
+          <p>{email}</p>
+        </Link>
         <Button className="icon" onClick={this.handleSignOut}>
-          <Icon name="signOut" /><span>Sign out</span>
+          <Icon name="signOut" />
+          <span>Sign out</span>
         </Button>
-      </div>
-    ) : (
-      <div className="Profile">
-        <Link to="/sign-in"><p>Sign in</p></Link>
+        <Confirm
+          open={this.state.confirm}
+          title={"sign_out"}
+          message={"confirm_sign_out"}
+          buttons={[
+            {
+              title: "no"
+            },
+            {
+              title: "yes",
+              style: "primary"
+            }
+          ]}
+          onAnswer={this.handleConfirm}
+        />
       </div>
     );
   }
 
   render() {
-    return (
-      <Page title="My profile">
-        {this.renderContent()}
-      </Page>
-    );
+    return <Page title="My profile">{this.renderContent()}</Page>;
   }
 }
 

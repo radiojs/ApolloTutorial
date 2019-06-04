@@ -1,24 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Container } from "@material-ui/core";
 
-import MeContainer from '../../modules/user/ui/MeContainer';
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { sidebarOn: false };
+  }
+
+  toggleSidebar = show => {
+    const state = typeof show === "boolean" ? show : !this.state.sidebarOn;
+    this.setState({ sidebarOn: state });
+  };
+
   render() {
     const { children } = this.props;
+    const { sidebarOn } = this.state;
+
     return (
       <div className="Layout">
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/blogs">Blog list</Link></li>
-          </ul>
-          <MeContainer />
-        </nav>
-        {children}
+        <Container fixed>
+          <Navbar onToggleSidebar={this.toggleSidebar} />
+          <Sidebar open={sidebarOn} onToggle={this.toggleSidebar} />
+          {children}
+        </Container>
       </div>
-    )
+    );
   }
 }
 
